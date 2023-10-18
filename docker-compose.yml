@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  app:
+    build: .
+    ports:
+      - 8001:8000
+    networks:
+      es-network:
+        aliases:
+            - news
+    volumes:
+      - .:/st
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.12
+    container_name: elasticsearch
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - node.name=es
+      - cluster.name=es-docker-cluster
+      - cluster.initial_master_nodes=es
+      - MAX_LOCKED_MEMORY=unlimited
+    volumes:
+      - ./es_data_volume:/usr/share/elasticsearch/data
+      - ./elasticsearch.yml:/etc/elasticsearch/elasticsearch.yml
+    ports:
+      - 9200:9200
+    networks:
+      es-network:
+        aliases:
+          - elastic-news
+  
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.13.4
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS = http://elasticsearch:9201
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    networks:
+      es-network:
+        aliases:
+          - elastic-kibana
+        
+
+networks:
+  es-network:
+    name: es-network

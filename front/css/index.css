@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap');
+html{
+    font-family: 'Roboto', sans-serif;
+}
+.container{
+    width: 1100px;
+    display: flex;
+    flex-direction: column;
+    margin: 1em auto;
+}
+.btn{
+    cursor: pointer;
+    padding: 5px;
+    color: #fff;
+    background-color: #000;
+    border: solid #000 1px;
+    border-radius: 5px;
+}
+.find-inp{
+    height: 30px;
+    padding: 1.2em;
+    color: #000;
+    background-color: #fff;
+    border-left: solid #000 3px;
+    border-top: solid #000 3px;
+    border-bottom: solid #000 3px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+.find-button{
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    padding: 1.2em;
+    color: #fff;
+    background-image: url('../img/magnifying-glass.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    border-top: solid #000 3px;
+    border-right: solid #000 3px;
+    border-bottom: solid #000 3px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+.search{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.menu{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    padding-bottom: 1em;
+}
+.news-item{
+    position: relative;
+    border: solid #000 1px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px #939393;
+    margin-top: 1em;
+}
+.news-item:first-child{
+    position: relative;
+    border: solid #000 1px;
+    border-radius: 5px;
+    margin-top: 3em;
+}
+.news-item > input{
+    padding: .5em;
+    font-size: 24px;
+}
+.news-item > div > p{
+    display: block;
+    padding: .5em;
+    color: #6f6f6f;
+}
+.title{
+    text-align: center;
+    margin: 5em 0;
+}
+.del-btn{
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.form-inp{
+    width: 100%;
+    margin: .5em 0;
+    padding: 10px 5px;
+    color: #000;
+    background-color: #fff;
+    border: solid #000 2px;
+    border-radius: 5px;
+}
+.form-btn{
+    cursor: pointer;
+    padding: 5px;
+    border: solid #000 1px;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #000;
+}
+.date_container{
+    display: flex;
+    justify-content: space-around;
+}
+.create-news-form{
+    display: flex;
+    justify-content: space-around;
+}
+.create-news-form-inner{
+    margin-top: 4em;
+    width: 40%;
+}
+.create-news-form-inner > input{
+    width: 100%;
+}
+.news-item-details{
+    margin: 2em auto;
+    width: 800px;
+}
+.news-item-details > h2{
+    font-weight: bold;
+    text-align: center;
+    margin: 1em 0;
+    font-size: 24px;
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <script type="text/javascript" src="js/index.js"></script>
+    <title>News</title>
+</head>
+<body>
+    <div class="container">
+        <div class="menu">
+            <input id="GetAllNews" class="btn" value="All news" type="button" onclick="get_all_news();"/>
+            <div class="search">
+                <input id="FindNews_inp" class="find-inp"/>
+                <input id="FindNews" class="find-button" type="button" onclick="find_news();"/>
+            </div>
+            <input id="add" class="btn" value="Add news" type="button" onclick="AddNews();"/>
+        </div>
+        <div id="news-items" class="news">
+            
+        </div>
+    </div>
+</body>
+</html>
