@@ -1,5 +1,5 @@
 from elasticsearch import AsyncElasticsearch
-from routers.schemas import NewsCreatedSchema
+from routers.schemas import NewsFullSchema
 from settings import settings
 
 
@@ -24,8 +24,8 @@ class ElasticCatalogService:
             }
         return await self.aes.search(index=settings.elastic.INDEX, query=query)
 
-    async def insert_news(self, data: NewsCreatedSchema):
-        return await self.aes.index(index=settings.elastic.INDEX, document=data.dict())
+    async def insert_news(self, data: NewsFullSchema):
+        data = await self.aes.index(index=settings.elastic.INDEX, document=data.dict())
 
     async def delete_news(self, id: str):
         await self.aes.delete(id=id, index=settings.elastic.INDEX)

@@ -1,14 +1,15 @@
 from typing import Annotated
-
+import logging
 from fastapi import APIRouter, Body, Depends, Query, status, HTTPException
 from pydantic import ValidationError
 from services.elastic import ElasticCatalogService
 from dependencies.dependencies import get_catalog_service
 
-from routers.schemas import NewsCreatedSchema, HealthcheckSchema, NewsHits
+from routers.schemas import NewsFullSchema, HealthcheckSchema, NewsHits
 
 router = APIRouter()
 
+logger = logging.getLogger(__name__)
 
 @router.get(
     "/healthcheck/",
@@ -77,17 +78,22 @@ async def find_news(
         status.HTTP_500_INTERNAL_SERVER_ERROR: {},
     },
     status_code=status.HTTP_201_CREATED,
-    response_model=NewsCreatedSchema,
+    response_model=NewsFullSchema,
     summary="Добавление новой новости",
 )
 async def insert_news(
     catalog_service: Annotated[ElasticCatalogService, Depends(get_catalog_service)],
-    data: NewsCreatedSchema = Body(),
+    data: NewsFullSchema = Body(),
 ):
     try:
-        return catalog_service.insert_news(data)
+        await catalog_service.insert_news(data)
+        return data 
     except ValidationError as err:
+        logger.error(f"err")
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err)
+    except Exception:
+        logger.error(f"err")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=err)
 
 
 @router.delete(

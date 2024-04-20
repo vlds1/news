@@ -1,18 +1,7 @@
-from typing import Annotated
-
-from elasticsearch import AsyncElasticsearch
-from fastapi import Depends
-
 from services.elastic import ElasticCatalogService
-
+from app.db.elastic.connection import aes
 from settings import settings
 
 
-async def elastic_search_connection() -> AsyncElasticsearch:
-    return AsyncElasticsearch([settings.elastic.LIST_DSN[0]])
-
-
-async def get_catalog_service(
-    aes: Annotated[AsyncElasticsearch, Depends(elastic_search_connection)]
-) -> ElasticCatalogService:
+async def get_catalog_service() -> ElasticCatalogService:
     return ElasticCatalogService(aes=aes, index=settings.elastic.INDEX)

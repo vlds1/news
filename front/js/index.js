@@ -1,4 +1,4 @@
-const base_url = "http://localhost:8001"
+const base_url = "http://0.0.0.0:8001"
 
 window.addEventListener('load', () => {
     get_all_news()
@@ -160,8 +160,6 @@ function create_new(){
     }
     const title = document.getElementById("new-title").value
     const description = document.getElementById("new-description").value
-    const date = document.getElementById("new-date").value
-    const time = document.getElementById("new-time").value
     
     const current_date = new Date();
     let currentDay= String(current_date.getDate()).padStart(2, '0');
@@ -175,8 +173,8 @@ function create_new(){
 
     data.title = title != "" ? title : "string"
     data.description = description != "" ? description : "string"
-    data.date = date != "" ? date : currentDate
-    data.time = time != "" ? time : currentTime
+    data.date = currentDate
+    data.time = currentTime
     console.log(data)
     fetch(`${base_url}/new_news/`, {
         method: "POST",

@@ -6,7 +6,10 @@ class HealthcheckSchema(BaseModel):
     aes_available: bool
 
 
-class NewsCreatedSchema(BaseModel):
+class NewsFullSchema(BaseModel):
+    class Config:
+        orm_mode = True
+
     title: str
     description: str
     date: str
@@ -31,7 +34,7 @@ class NewsCreatedSchema(BaseModel):
             raise ValueError("время не в нужном формате")
 
 
-class NewsSchema(NewsCreatedSchema):
+class NewsSchema(NewsFullSchema):
     id: str
 
     @root_validator(pre=True)
