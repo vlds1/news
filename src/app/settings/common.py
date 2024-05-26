@@ -4,7 +4,6 @@ from pydantic import AnyHttpUrl, BaseSettings, validator
 class UvicornSettings(BaseSettings):
     class Config:
         env_prefix = "UVICORN_"
-        env_file = ".env"
 
     HOST: str = "127.0.0.1"
     PORT: int = 8000
@@ -13,7 +12,6 @@ class UvicornSettings(BaseSettings):
 class ElasticSettings(BaseSettings):
     class Config:
         env_prefix = "ELASTIC_"
-        env_file = ".env"
 
     INDEX: str
     HOSTS: list[str] = ["127.0.0.1"]

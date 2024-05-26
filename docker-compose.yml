@@ -12,6 +12,8 @@ services:
       es-network:
         aliases:
             - news
+    env_file:
+      - .env
     volumes:
       - .:/st
     depends_on:
