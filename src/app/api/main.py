@@ -1,9 +1,19 @@
+from contextlib import asynccontextmanager
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.db.elastic.connection import es
-from settings import settings
-from routers.views import router
+
+from app.api.rest.controllers import router
+from app.infra.db.elastic.connection import es
+from app.settings import settings
+from app.utils import init_es
+
+
+@asynccontextmanager
+async def app_lifespan():
+    "Пока не нужна"
+
 
 def create_app():
     app = FastAPI()
@@ -18,10 +28,10 @@ def create_app():
         allow_headers=["*"],
     )
     app.include_router(router)
-
+    init_es()
     if not es.indices.exists(settings.elastic.INDEX):
         es.indices.create(settings.elastic.INDEX)
-        
+
     return app
 
 

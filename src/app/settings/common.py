@@ -1,4 +1,4 @@
-from pydantic import BaseSettings, validator, AnyHttpUrl
+from pydantic import AnyHttpUrl, BaseSettings, validator
 
 
 class UvicornSettings(BaseSettings):

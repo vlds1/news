@@ -1,5 +1,6 @@
-from pydantic import Field, BaseModel, validator, root_validator
 from datetime import date, time
+
+from pydantic import BaseModel, Field, root_validator, validator
 
 
 class HealthcheckSchema(BaseModel):

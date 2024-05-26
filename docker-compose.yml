@@ -8,8 +8,6 @@ services:
       target: back
     ports:
       - 8001:8000
-    environment:
-      - PYTHON_PATH=
     networks:
       es-network:
         aliases:
@@ -18,7 +16,7 @@ services:
       - .:/st
     depends_on:
       - elasticsearch
-    command: "python app/main.py"
+    command: "python app/api/main.py"
 
   front:
     image: nginx
@@ -37,9 +35,9 @@ services:
       - cluster.name=es-docker-cluster
       - discovery.type=single-node
       - MAX_LOCKED_MEMORY=unlimited
-    volumes:
-      - ./es_data_volume:/usr/share/elasticsearch/data
-      - ./elasticsearch.yml:/etc/elasticsearch/elasticsearch.yml
+    # volumes:
+    #   - ./es_data_volume:/usr/share/elasticsearch/data
+    #   - ./elasticsearch.yml:/etc/elasticsearch/elasticsearch.yml
     ports:
       - 9203:9200
     networks:

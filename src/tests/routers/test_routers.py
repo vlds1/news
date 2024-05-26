@@ -1,5 +1,6 @@
 import pytest
-from src.app.settings import settings
+
+from app.settings import settings
 
 pytestmark = [pytest.mark.asyncio]
 

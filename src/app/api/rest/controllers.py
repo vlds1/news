@@ -1,15 +1,17 @@
-from typing import Annotated
 import logging
-from fastapi import APIRouter, Body, Depends, Query, status, HTTPException
-from pydantic import ValidationError
-from services.elastic import ElasticCatalogService
-from dependencies.dependencies import get_catalog_service
+from typing import Annotated
 
-from routers.schemas import NewsFullSchema, HealthcheckSchema, NewsHits
+from fastapi import APIRouter, Body, Depends, HTTPException, Query, status
+from pydantic import ValidationError
+
+from app.api.rest.schemas import HealthcheckSchema, NewsFullSchema, NewsHits
+from app.app_layer.services.elastic import ElasticService
+from app.dependencies import get_catalog_service
 
 router = APIRouter()
 
 logger = logging.getLogger(__name__)
+
 
 @router.get(
     "/healthcheck/",
@@ -18,7 +20,7 @@ logger = logging.getLogger(__name__)
     summary="Проверка - работает ли эластик",
 )
 async def healthcheck(
-    catalog_service: Annotated[ElasticCatalogService, Depends(get_catalog_service)]
+    catalog_service: Annotated[ElasticService, Depends(get_catalog_service)]
 ):
     try:
         return {"aes_available": await catalog_service.ping()}
@@ -38,7 +40,7 @@ async def healthcheck(
     summary="Получение всех новостей",
 )
 async def get_all_news(
-    catalog_service: Annotated[ElasticCatalogService, Depends(get_catalog_service)]
+    catalog_service: Annotated[ElasticService, Depends(get_catalog_service)]
 ):
     try:
         return await catalog_service.get_all_news()
@@ -60,7 +62,7 @@ async def get_all_news(
     summary="Поиск новостей",
 )
 async def find_news(
-    catalog_service: Annotated[ElasticCatalogService, Depends(get_catalog_service)],
+    catalog_service: Annotated[ElasticService, Depends(get_catalog_service)],
     find_str: str | None = None,
     doc_id: str | None = None,
 ):
@@ -82,18 +84,20 @@ async def find_news(
     summary="Добавление новой новости",
 )
 async def insert_news(
-    catalog_service: Annotated[ElasticCatalogService, Depends(get_catalog_service)],
+    catalog_service: Annotated[ElasticService, Depends(get_catalog_service)],
     data: NewsFullSchema = Body(),
 ):
     try:
         await catalog_service.insert_news(data)
-        return data 
+        return data
     except ValidationError as err:
         logger.error(f"err")
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err)
     except Exception:
         logger.error(f"err")
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=err)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=err
+        )
 
 
 @router.delete(
@@ -107,7 +111,7 @@ async def insert_news(
     summary="Удаление новости",
 )
 async def delete_news(
-    catalog_service: Annotated[ElasticCatalogService, Depends(get_catalog_service)],
+    catalog_service: Annotated[ElasticService, Depends(get_catalog_service)],
     id: str = Query(...),
 ):
     try:

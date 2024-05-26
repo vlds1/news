@@ -1,15 +1,15 @@
 from asyncio import AbstractEventLoop
+from contextlib import asynccontextmanager
 from typing import AsyncGenerator
+
+import pytest
+from elasticsearch import AsyncElasticsearch
 from fastapi import FastAPI
 from httpx import AsyncClient
-from contextlib import asynccontextmanager
 
-from elasticsearch import AsyncElasticsearch
-import pytest
+from app.api.main import app
 
-from src.app.main import app
-
-# from src.app.settings import settings
+# from app.settings import settings
 
 
 list_dns = f"http://elastic:changeme@localhost:9200/"

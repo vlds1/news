@@ -1,9 +1,6 @@
-
-
 from elasticsearch import AsyncElasticsearch, Elasticsearch
 
 from app.settings import settings
-
 
 aes = AsyncElasticsearch([settings.elastic.LIST_DSN[0]])
 
